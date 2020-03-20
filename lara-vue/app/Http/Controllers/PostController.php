@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Task;
+use App\Post;
+use App\Http\Resources\PostCollection;
 use Illuminate\Http\Request;
 
-class TaskController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,27 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::all();
+        $posts = Post::all()->toArray();
+        return array_reverse($posts);
     }
 
+       // add book
+    public function add(Request $request){
+    if($request->get('image'))
+    {
+       $image = $request->get('image');
+       $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];    
+
+       $post = new Post();
+       $post->title = $request->title;
+       $post->description = $request->description;
+       $post->image = $name;
+
+       $post->save();
+
+       return response()->json(['success' => 'You have successfully uploaded an image'], 200);
+    }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -35,20 +54,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required'
-        ]);
-        
-        Task::create($request->all());
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show(Post $post)
     {
         //
     }
@@ -56,10 +71,10 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(Post $post)
     {
         //
     }
@@ -68,10 +83,10 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Task  $task
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Post $post)
     {
         //
     }
@@ -79,10 +94,10 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(Post $post)
     {
         //
     }
