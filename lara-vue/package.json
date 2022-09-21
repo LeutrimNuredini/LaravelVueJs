@@ -32,6 +32,6 @@
         "@mdi/font": "^5.0.45",
         "vue-axios": "^2.1.5",
         "vue-router": "^3.1.6",
-        "vuetify": "^2.2.18"
+        "vuetify": "^2.6.10"
     }
 }
